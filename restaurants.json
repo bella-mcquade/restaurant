@@ -1,0 +1,25 @@
+{
+  "Restaurants": [
+    {
+      "id": 1234, 
+      "Name": "Cherry St",
+      "Type": "Coffee",
+      "Price": "$$",
+      "Description": "My fav"
+    },
+    {
+      "id": 1357, 
+      "Name": "Cloud City",
+      "Type": "Coffee",
+      "Price": "$$",
+      "Description": "Closest"
+    },
+    {
+      "id": 2468, 
+      "Name": "Maple Bar",
+      "Type": "American",
+      "Price": "$$$",
+      "Description": "Tasty"
+    }
+  ]
+}
