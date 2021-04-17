@@ -43,23 +43,6 @@ app.get('/listgroups', (req, res) => {
     res.send(JSON.stringify(groups));
 });
 
-//create a group
-app.get('/creategroup',(req,res) => { 
-    var obj;
-    fs.readFile( __dirname + "/" + "groups.json", function (err, data) {
-        obj = JSON.parse( data );
-        newID = randomInt(1000,10000);
-        obj["Groups"].push({ID:newID});
-        fs.close();
-    });
-
-
-    fs.appendFile( __dirname + "/" + "groups.json", obj.stringify()); 
-    fs.close();
-    res.end( JSON.stringify(obj));
-    
-});
-
 // /getrestaurant?id
 //@param id; the id of the requested restaurant/
 app.get('/getrestaurant', (req,res) => {
@@ -91,6 +74,51 @@ app.get('/getrestaurant', (req,res) => {
     res.send(toSend); //Sends the requested restaurant or a message that it wasn't working.
 })
 
+//creates and adds a group to the group file and gives back the id of the group.
+app.get('/creategroup', (req, res) => {
+    var newGroup = {
+        id: randomInt(1000,10000),
+        votes: []
+        //votes: 2D array here maybe with Restaurant ID and number of votes
+    }
+
+    console.log("ID = " + JSON.stringify(newGroup.id))
+    for(var i = 0; i < restaurants.Restaurants.length; i++){
+        newGroup.votes[i] = 0;
+    }
+
+    groups.Groups.push(newGroup);
+    res.send("Group ID = " + JSON.stringify(newGroup.id));
+})
+
+//Uses a 2D array with the IDs in y=0 and the number of votes for each id in y=1 and adds up the votes.
+app.get('/vote', (req, res) => {
+    var hold;
+    var i = 0;
+    for(var i = 0; i < restaurants.Restaurants.length; i++){
+        if(restaurants.Restaurants[i].id == req.query.id){
+            hold = i;
+            break;
+        }
+    }
+
+    groups.Groups[3].votes[hold]++;
+})
+
+app.get('/finalvote', (req, res) => {
+    var voteNum = 0;
+    var finalRestId;
+
+    for(var i = 0; i < restaurantsRestaurants.length; i++){
+        if(groups.Groups[req.query.groupid].vote[1][i] > voteNum){
+            voteNum = groups.Groups[req.query.groupid].vote[i][0];
+            finalRestId = groups.Groups[req.query.groupid].vote[i][1]
+        }
+    }
+
+    console.log("The chosen restaurant ID is" + finalRestId);
+})
+
 //something to check and make sure it's working.
 app.get('/', (req,res) => {
     res.send("Howdy.");
@@ -98,3 +126,30 @@ app.get('/', (req,res) => {
 
 app.listen(3000,() => console.log('Listening on port 3000...'));
 
+/*app.get('/joingroup', (req, res) => {
+    const i = 0;
+    var isFound = false;
+    var toSend;
+
+    while(i < groups.Groups.length){
+        if(groups.Groups[i].id == req.query.id){
+            console.log("We did it BOYS");
+            const groupID = req.query.id;
+            toSend = {Group ID};
+            isFound = true;
+            break;
+        }
+        console.log("Skipped");
+        i++;
+    }
+
+    if(isFound == false){ 
+        //error message
+        toSend = {Error: "No restaurant Found"}; //error.stringify
+    } else {
+        console.log('Successfully found the group);
+    }
+
+   res.send(toSend);
+})
+*/
