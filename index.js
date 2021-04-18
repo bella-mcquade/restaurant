@@ -26,11 +26,11 @@ var groups = JSON.parse(fs.readFileSync('groups.json'));
 console.log("Succesfully read *" + Object.keys(restaurants.Restaurants).length + "* restaurants");
 console.log("Succesfully read *" + Object.keys(groups.Groups).length + "* groups");
 
-// get a JSON list of all restaurants
+// get a JSON list of all restaurants (/listrestaurants)
 app.get('/listrestaurants', (req, res) => {
     console.log('/listrestaurants');
     res.setHeader('Content-Type', 'application/json');
-    console.log("ID=" +req.query.id);
+    console.log("ID=" + req.query.id);
 
     res.send(JSON.stringify(restaurants));
 });
@@ -42,8 +42,7 @@ app.get('/listgroups', (req, res) => {
     res.send(JSON.stringify(groups));
 });
 
-// /getrestaurant?id
-//@param id; the id of the requested restaurant/
+//Uses the ID of a restaurant (/getrestaurant?id={id of the requested restaurant})
 app.get('/getrestaurant', (req,res) => {
     console.log("ID=" +req.query.id);
     res.setHeader('content-Type', 'application/json');
@@ -53,7 +52,8 @@ app.get('/getrestaurant', (req,res) => {
     var isFound = false; //Has the restaurant been found?
 
     while(i < restaurants.Restaurants.length){ //Goes through every restaurant and checks the id
-        if(restaurants.Restaurants[i].id == req.query.id){ //Checks the id of the restaurant and gets it ready to send if it matches the requested id.
+        //Checks the id of the restaurant and gets it ready to send if it matches the requested id.
+        if(restaurants.Restaurants[i].id == req.query.id){ 
             console.log("hi");
             toSend = JSON.stringify(restaurants.Restaurants[i]);
             isFound = true;
@@ -73,12 +73,11 @@ app.get('/getrestaurant', (req,res) => {
     res.send(toSend); //Sends the requested restaurant or a message that it wasn't working.
 })
 
-//creates and adds a group to the group file and gives back the id of the group.
+//creates and adds a group to the group file and gives back the id of the group. (/creategroup)
 app.get('/creategroup', (req, res) => {
-    var newGroup = {
+    var newGroup = { //Makes a group with an id/code and an array for the votes.
         id: randomInt(1000,10000),
         votes: []
-        //votes: 2D array here maybe with Restaurant ID and number of votes
     }
 
     console.log("ID = " + JSON.stringify(newGroup.id))
@@ -90,10 +89,13 @@ app.get('/creategroup', (req, res) => {
     res.send("Group ID = " + JSON.stringify(newGroup.id));
 })
 
-//Uses a 2D array with the IDs in y=0 and the number of votes for each id in y=1 and adds up the votes.
+/*Uses a 2D array with the IDs in y=0 and the number of votes for each id in y=1 and 
+adds up the votes. (/vote?id={Id of the restaurant}&groupID={Id of the group}) */
 app.get('/vote', (req, res) => {
     var hold;
-    var i = 0;
+    var groupId = req.query.groupid;
+    var index = getGroupLocation(groupId);
+
     for(var i = 0; i < restaurants.Restaurants.length; i++){
         if(restaurants.Restaurants[i].id == req.query.id){
             hold = i;
@@ -101,41 +103,39 @@ app.get('/vote', (req, res) => {
         }
     }
 
-    console.log("YAY PEEPEE TIME");
-    groups.Groups[req.query.index].votes[hold]++;
+    groups.Groups[index].votes[hold]++;
+    res.send("Successful Vote");
 })
 
+//Calculates which restaurant has the most votes for that group and send back that restaurant's info
 app.get('/finalvote', (req, res) => {
-    var groupId = req.query.groupId;
-    var index = req.query.index;
+    var groupId = req.query.groupid;
+    var index = getGroupLocation(groupId);
     var finalRest;
     var finalNum = 0;
 
     for(var i = 0; i < restaurants.Restaurants.length; i++){
-        var groupString = JSON.stringify(groups.Groups[req.query.index].votes[i]);
+        var groupString = JSON.stringify(groups.Groups[index].votes[i]);
         if(groupString > finalNum){
-            console.log("I'm going to pee your pants");
             finalRest = JSON.stringify(restaurants.Restaurants[i]);
             finalNum = groupString;
-        } else {
-            console.log("oh no you peed my pants!");
         }
     }
+    console.log("Success " + finalRest)
     res.send(finalRest);
 })
 
+/*Checks to see if the code you are entering actually corresponds to a created group and gives a 
+success/error message. (/joingroup?id={ID of the group}) */
 app.get('/joingroup', (req, res) => {
     var i = 0;
-    var isFound = false;
-    var toSend;
-    var index;
+    var isFound = false; //Has the group been found?
+    var toSend; //This is being passed back to the app.
 
     while(i < groups.Groups.length){
         if(groups.Groups[i].id == req.query.id){
-            console.log("We did it BOYS");
-            const groupID = req.query.id;
+            const groupID = req.query.id; //Wait is this actually used at all? Check later.
             isFound = true;
-            index = i;
             break;
         }
         console.log("Skipped");
@@ -144,18 +144,31 @@ app.get('/joingroup', (req, res) => {
 
     if(isFound == false){ 
         //error message
-        toSend = {Error: "No restaurant Found"}; //error.stringify
+        toSend = {Error: "No group Found"}; //error.stringify
     } else {
-        console.log('Successfully found the group at index ' + index);
-        toSend = {index};
+        console.log('Successfully found the group. Connecting...');
+        toSend = 'Successfully found the group. Connecting...';
     }
 
    res.send(toSend);
 })
 
-//something to check and make sure it's working.
+//something to check and make sure it's working. (/)
 app.get('/', (req,res) => {
     res.send("Howdy.");
 });
+
+//A method that gets the location of a group's id.  (The index)
+function getGroupLocation(groupId){
+    var index = 0;
+    
+    for(var i = 0; i < groups.Groups.length; i++){
+        if(groups.Groups[i].id == groupId){
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
 
 app.listen(3000,() => console.log('Listening on port 3000...'));

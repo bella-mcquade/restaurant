@@ -1,25 +1,74 @@
 {
   "Restaurants": [
     {
-      "id": 1234, 
-      "Name": "Cherry St",
-      "Type": "Coffee",
-      "Price": "$$",
-      "Description": "My fav"
+      "id": 1000, 
+      "Name": "Cherry Street Thai",
+      "Type": "Thai restaurant",
+      "Price": "$",
+      "Description": "Compact, unassuming restaurant  preparing a range of traditional Thai fare with custom spice levels."
     },
     {
-      "id": 1357, 
-      "Name": "Cloud City",
-      "Type": "Coffee",
-      "Price": "$$",
-      "Description": "Closest"
+      "id": 1001, 
+      "Name": "Ezell’s Famous Chicken",
+      "Type": "Chicken restaurant",
+      "Price": "$",
+      "Description": "Local fast-food chain known for its housemade fried chicken, plus down-home sides & desserts."
     },
     {
-      "id": 2468, 
-      "Name": "Maple Bar",
-      "Type": "American",
+      "id": 1002, 
+      "Name": "Pagliacci Pizza",
+      "Type": "Pizza restaurant",
+      "Price": "$$",
+      "Description": "Laid-back chain pizzeria with gourmet thin-crust pies."
+    },
+    {
+      "id": 1003,
+      "Name": "McDonald’s",
+      "Type": "Fast food restaurant",
+      "Price": "$",
+      "Description": "Classic, long-running fast-food chain known for its burgers, fries & shakes."
+    },
+    {
+      "id": 1004,
+      "Name": "Starbucks",
+      "Type": "Coffee shop",
+      "Price": "$$",
+      "Description": "Seattle-based coffeehouse chain known for its signature roasts, light bites and WiFi availability."
+    },
+    {
+      "id": 1005,
+      "Name": "Feed Co. Burgers",
+      "Type": "Hamburger restaurant",
+      "Price": "$$",
+      "Description": "An array of classic & creative burgers & sides in a casual, modern setting with outdoor seating."
+    },
+    {
+      "id": 1006,
+      "Name": "Cupcake Royale",
+      "Type": "Cafe",
+      "Price": "$",
+      "Description": "Cupcakes in many flavors, plus ice cream, ordered to go or stay in a plain cafe on a mellow street."
+    },
+    {
+      "id": 1007,
+      "Name": "IHOP",
+      "Type": "Pancake restaurant",
+      "Price": "$",
+      "Description": "Long-standing chain serving a wide variety of pancakes & other American breakfast & diner fare."
+    },
+    {
+      "id": 1008,
+      "Name": "Chipotle Mexican Grill",
+      "Type": "Mexican restaurant",
+      "Price": "$",
+      "Description": "Fast-food chain offering Mexican fare, including design-your-own burritos, tacos & bowls."
+    },
+    {
+      "id": 1009,
+      "Name": "Cafe Lago",
+      "Type": "Italian restaurant",
       "Price": "$$$",
-      "Description": "Tasty"
+      "Description": "Ultrathin lasagna, wood-fired pizzas & other simple trattoria fare in a spare, open space."
     }
   ]
 }
