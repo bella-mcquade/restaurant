@@ -19,7 +19,6 @@ app.use(bodyParser.json());
 var fs = require('fs');
 const { randomInt } = require('crypto');
 
-
 // load in the restaurant JSON object from a file
 var restaurants = JSON.parse(fs.readFileSync('restaurants.json'));
 var groups = JSON.parse(fs.readFileSync('groups.json'));
@@ -102,41 +101,41 @@ app.get('/vote', (req, res) => {
         }
     }
 
-    groups.Groups[3].votes[hold]++;
+    console.log("YAY PEEPEE TIME");
+    groups.Groups[req.query.index].votes[hold]++;
 })
 
 app.get('/finalvote', (req, res) => {
-    var voteNum = 0;
-    var finalRestId;
+    var groupId = req.query.groupId;
+    var index = req.query.index;
+    var finalRest;
+    var finalNum = 0;
 
-    for(var i = 0; i < restaurantsRestaurants.length; i++){
-        if(groups.Groups[req.query.groupid].vote[1][i] > voteNum){
-            voteNum = groups.Groups[req.query.groupid].vote[i][0];
-            finalRestId = groups.Groups[req.query.groupid].vote[i][1]
+    for(var i = 0; i < restaurants.Restaurants.length; i++){
+        var groupString = JSON.stringify(groups.Groups[req.query.index].votes[i]);
+        if(groupString > finalNum){
+            console.log("I'm going to pee your pants");
+            finalRest = JSON.stringify(restaurants.Restaurants[i]);
+            finalNum = groupString;
+        } else {
+            console.log("oh no you peed my pants!");
         }
     }
-
-    console.log("The chosen restaurant ID is" + finalRestId);
+    res.send(finalRest);
 })
 
-//something to check and make sure it's working.
-app.get('/', (req,res) => {
-    res.send("Howdy.");
-});
-
-app.listen(3000,() => console.log('Listening on port 3000...'));
-
-/*app.get('/joingroup', (req, res) => {
-    const i = 0;
+app.get('/joingroup', (req, res) => {
+    var i = 0;
     var isFound = false;
     var toSend;
+    var index;
 
     while(i < groups.Groups.length){
         if(groups.Groups[i].id == req.query.id){
             console.log("We did it BOYS");
             const groupID = req.query.id;
-            toSend = {Group ID};
             isFound = true;
+            index = i;
             break;
         }
         console.log("Skipped");
@@ -147,9 +146,16 @@ app.listen(3000,() => console.log('Listening on port 3000...'));
         //error message
         toSend = {Error: "No restaurant Found"}; //error.stringify
     } else {
-        console.log('Successfully found the group);
+        console.log('Successfully found the group at index ' + index);
+        toSend = {index};
     }
 
    res.send(toSend);
 })
-*/
+
+//something to check and make sure it's working.
+app.get('/', (req,res) => {
+    res.send("Howdy.");
+});
+
+app.listen(3000,() => console.log('Listening on port 3000...'));
