@@ -26,6 +26,11 @@ var groups = JSON.parse(fs.readFileSync('groups.json'));
 console.log("Succesfully read *" + Object.keys(restaurants.Restaurants).length + "* restaurants");
 console.log("Succesfully read *" + Object.keys(groups.Groups).length + "* groups");
 
+//something to check and make sure it's working. (/)
+app.get('/', (req,res) => {
+    res.send("Howdy.");
+});
+
 // get a JSON list of all restaurants (/listrestaurants)
 app.get('/listrestaurants', (req, res) => {
     console.log('/listrestaurants');
@@ -111,17 +116,18 @@ app.get('/vote', (req, res) => {
 app.get('/finalvote', (req, res) => {
     var groupId = req.query.groupid;
     var index = getGroupLocation(groupId);
-    var finalRest;
+    var finalRest = [];
     var finalNum = 0;
 
     for(var i = 0; i < restaurants.Restaurants.length; i++){
         var groupString = JSON.stringify(groups.Groups[index].votes[i]);
-        if(groupString > finalNum){
-            finalRest = JSON.stringify(restaurants.Restaurants[i]);
+        if(groupString >= finalNum && groupString > 0){
+            finalRest.push(restaurants.Restaurants[i].id); //On the phone app: if(finalRest.length > 1){Run the program again}
             finalNum = groupString;
-        }
+        } 
     }
-    console.log("Success " + finalRest)
+
+    console.log("Success " + finalRest);
     res.send(finalRest);
 })
 
@@ -153,9 +159,25 @@ app.get('/joingroup', (req, res) => {
    res.send(toSend);
 })
 
-//something to check and make sure it's working. (/)
-app.get('/', (req,res) => {
-    res.send("Howdy.");
+//Gives back an array of the restaurants to the phone which holds it until it wants to check that restaurant for something else.
+app.get('/getrestaurantid', (req,res) => {
+    var priceTag = req.query.tag;
+    var restIdArray = [];
+
+    for(var i = 0; i < restaurants.Restaurants.length; i++){ //Goes through every restaurant and checks the id
+        if(priceTag == "" || !(priceTag)){ 
+            console.log("Price Check");
+            restIdArray.push(restaurants.Restaurants[i].id);
+        } else if(priceTag != "" && priceTag == restaurants.Restaurants[i].Price){   
+            console.log("Price Check");
+            restIdArray.push(restaurants.Restaurants[i].id);
+        } else {
+            console.log("skip");
+        }
+    }
+
+    console.log(restIdArray);
+    res.send(restIdArray);
 });
 
 //A method that gets the location of a group's id.  (The index)
@@ -172,3 +194,9 @@ function getGroupLocation(groupId){
 }
 
 app.listen(3000,() => console.log('Listening on port 3000...'));
+
+/*
+Things still to do:
+- Error Messages
+- Tie-breaker (do in front end)
+*/
