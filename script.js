@@ -69,6 +69,10 @@ var listRestaurants = function(){
 
   //Calls the vote api by using an id submitted by the button and the saved group id. GLOBAL VARIABLE NOT FUNCTIONAL
   var vote = function(id){
+
+    //var elem = document.getElementById("b" + id);
+    //elem.style.backgroundColor="green";
+    
     console.log("Clicked");
     
     console.log(window.savedGroupId);
@@ -174,28 +178,29 @@ var listRestaurants = function(){
     const container = document.createElement('div');
 
     container.setAttribute('class', 'container');
-    const app = document.getElementById('root');
+    const app = document.getElementById('Results');
 
     app.appendChild(container);
     
+    var params = ("?groupid=" + window.savedGroupId);
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://172.30.202.170:3000/finalvote', true);
+    request.open('GET', 'http://172.30.202.170:3000/finalvote' + params, true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
         console.log(data);
-        console.log(data.Restaurants[0]);
+        console.log(data[0].Name);
       
-        for(var i = 0; i < data.Restaurants.length; i++){
+        for(var i = 0; i < data.length; i++){
             const name = document.createElement('h1');
-            name.textContent = data.Restaurants[i].Name;
+            name.textContent = data[i].Name;
 
             const price = document.createElement('h3');
-            price.textContent = data.Restaurants[i].Price;
+            price.textContent = data[i].Price;
 
             const description = document.createElement('h3');
-            description.textContent = data.Restaurants[i].Price;
+            description.textContent = data[i].Description;
 
 
             container.appendChild(name);

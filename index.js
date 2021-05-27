@@ -134,12 +134,11 @@ app.get('/finalvote', (req, res) => {
     for(var i = 0; i < restaurants.Restaurants.length; i++){
         var groupString = JSON.stringify(groups.Groups[index].votes[i]);
         if(groupString >= finalNum && groupString > 0){
-            finalRest.push(restaurants.Restaurants[i].id); //On the phone app: if(finalRest.length > 1){Run the program again}
+            finalRest.push(restaurants.Restaurants[i]); //On the phone app: if(finalRest.length > 1){Run the program again}
             finalNum = groupString;
         } 
     }
 
-    console.log("Success " + finalRest);
     res.send(finalRest);
 })
 
