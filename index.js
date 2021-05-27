@@ -103,7 +103,7 @@ app.get('/creategroup', (req, res) => {
 })
 
 /*Uses a 2D array with the IDs in y=0 and the number of votes for each id in y=1 and 
-adds up the votes. (/vote?id={Id of the restaurant}&groupID={Id of the group}) */
+adds up the votes. (/vote?id={Id of the restaurant}&groupid={Id of the group}) */
 app.get('/vote', (req, res) => {
     res.setHeader('content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -119,11 +119,13 @@ app.get('/vote', (req, res) => {
     }
 
     groups.Groups[index].votes[hold]++;
-    res.send(JSON.stringify(groups.Groups.votes));
+    res.send(JSON.stringify(groups.Groups[index]));
 })
 
 //Calculates which restaurant has the most votes for that group and send back that restaurant's info
 app.get('/finalvote', (req, res) => {
+    res.setHeader('content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     var groupId = req.query.groupid;
     var index = getGroupLocation(groupId);
     var finalRest = [];
@@ -148,9 +150,7 @@ app.get('/joingroup', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     var i = 0;
     var isFound = false; //Has the group been found?
-    var toSend = {
-                    Success: "",
-                }; //This is being passed back to the app.
+    var toSend = {};//This is being passed back to the app.
 
     while(i < groups.Groups.length){
         if(groups.Groups[i].id == req.query.id){
@@ -164,6 +164,7 @@ app.get('/joingroup', (req, res) => {
 
     if(isFound == false){ 
         //error message
+        console.log("Error: Did NOT find the group!");
         toSend = {Success: false}; //error.stringify
     } else {
         console.log('Successfully found the group. Connecting...');

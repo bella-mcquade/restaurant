@@ -1,5 +1,7 @@
+//Global Variable that saves the group's id. NOT FUNCTIONAL
 var savedGroupId;
 
+//Lists every restaurant and their price on the website. NOTE: Just a test function.
 var listRestaurants = function(){
 
     const container = document.createElement('div');
@@ -11,7 +13,7 @@ var listRestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://10.0.0.108:3000/listrestaurants', true);
+    request.open('GET', 'http://172.30.202.170:3000/listrestaurants', true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -36,6 +38,7 @@ var listRestaurants = function(){
     request.send()
   }
 
+  //Calls the creategroup api and displays a number on the website.
   var creategroup = function(){
 
     const container = document.createElement('div');
@@ -47,7 +50,7 @@ var listRestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://10.0.0.108:3000/creategroup', true);
+    request.open('GET', 'http://172.30.202.170:3000/creategroup', true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -64,26 +67,28 @@ var listRestaurants = function(){
     request.send()
   }
 
+  //Calls the vote api by using an id submitted by the button and the saved group id. GLOBAL VARIABLE NOT FUNCTIONAL
   var vote = function(id){
     console.log("Clicked");
     
     console.log(window.savedGroupId);
     //FIGURE OUT HOW TO SEE
-    var params = ("?groupid=" + window.savedGroupId + "&id=" + id);
+    var params = ("?id=" + id + "&groupid=" + window.savedGroupId);
 
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://10.0.0.108:3000/vote' + params, true);
+    request.open('GET', 'http://172.30.202.170:3000/vote' + params, true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
-        console.log("Voted for Restaurant ID " + data.Groups[0].id);
+        console.log(data);
     }
   
     // Send request
     request.send()
   }
 
+  //Calls the joingroup function and says success or failure. 
   var joingroup = function(){
     const container = document.createElement('div');
 
@@ -93,39 +98,42 @@ var listRestaurants = function(){
     app.appendChild(container);
 
     var groupId = document.getElementById('groupcode').value;
-    var params = ("?groupid=" + groupId);
+    var params = ("?id=" + groupId);
     savedGroupId = groupId;
 
     var request = new XMLHttpRequest();
 
   
-    request.open('GET', 'http://10.0.0.108:3000/joingroup' + params, true);
+    request.open('GET', 'http://172.30.202.170:3000/joingroup' + params, true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
+        var hold = data.Success;
 
-        console.log(groupId);
+        console.log(savedGroupId);
+        console.log(hold);
 
         const success = document.createElement('h1');
 
-        /*if(data.toSend[0] = true){
+        if(hold == true){
             success.textContent = "Success";
         } else {
-            success.textContent = "Failure";
+            success.textContent = "Failure, please try again";
         }
 
-        container.appendChild(success);*/
+        container.appendChild(success);
     }
   
     // Send request
     request.send()
   }
 
+  //Displays every restaurant on the screen with the description and price.
   var getrestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://10.0.0.108:3000/listrestaurants', true);
+    request.open('GET', 'http://172.30.202.170:3000/listrestaurants', true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -160,6 +168,7 @@ var listRestaurants = function(){
     request.send()
   }
 
+  //Calls finalVote and shows the winning restaurant. NOT FINISHED OR TESTED!
   var finalvote = function(){
 
     const container = document.createElement('div');
@@ -171,7 +180,7 @@ var listRestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://10.0.0.108:3000/finalvote', true);
+    request.open('GET', 'http://172.30.202.170:3000/finalvote', true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -199,3 +208,5 @@ var listRestaurants = function(){
     // Send request
     request.send()
   }
+
+  
