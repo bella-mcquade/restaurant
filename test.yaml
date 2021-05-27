@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: test
+servers:
+  - url: 'http://10.0.0.108:3000'
+paths:
+  /listrestaurants:
+    get:
+      summary: 'get all restaurants'
+      responses:
+          '200': 
+              description: 'get all restaurants'
+              content:
+                  application/json:
+                      schema:
+                        $ref: '#/components/schemas/restaurants'
+components:
+  schemas:
+    restaurants:
+        type: object
+        properties:
+            id: 
+                type: integer
+            Name:
+                type: string
+            Type: 
+                type: string
+            Price:
+                type: string
+            Description:
+                type: string

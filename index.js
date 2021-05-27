@@ -35,7 +35,7 @@ app.get('/', (req,res) => {
 app.get('/listrestaurants', (req, res) => {
     console.log('/listrestaurants');
     res.setHeader('Content-Type', 'application/json');
-    console.log("ID=" + req.query.id);
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     res.send(JSON.stringify(restaurants));
 });
@@ -44,6 +44,7 @@ app.get('/listrestaurants', (req, res) => {
 app.get('/listgroups', (req, res) => {
     console.log('/listgroups');
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send(JSON.stringify(groups));
 });
 
@@ -51,6 +52,7 @@ app.get('/listgroups', (req, res) => {
 app.get('/getrestaurant', (req,res) => {
     console.log("ID=" +req.query.id);
     res.setHeader('content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     var toSend; //The variable that decides what to send.
     var i = 0;
@@ -80,10 +82,16 @@ app.get('/getrestaurant', (req,res) => {
 
 //creates and adds a group to the group file and gives back the id of the group. (/creategroup)
 app.get('/creategroup', (req, res) => {
+    res.setHeader('content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     var newGroup = { //Makes a group with an id/code and an array for the votes.
         id: randomInt(1000,10000),
         votes: []
     }
+
+    /*var groupidJSON = {
+        id: newGroup.id
+    }*/
 
     console.log("ID = " + JSON.stringify(newGroup.id))
     for(var i = 0; i < restaurants.Restaurants.length; i++){
@@ -91,12 +99,14 @@ app.get('/creategroup', (req, res) => {
     }
 
     groups.Groups.push(newGroup);
-    res.send("Group ID = " + JSON.stringify(newGroup.id));
+    res.send(JSON.stringify(newGroup.id));
 })
 
 /*Uses a 2D array with the IDs in y=0 and the number of votes for each id in y=1 and 
 adds up the votes. (/vote?id={Id of the restaurant}&groupID={Id of the group}) */
 app.get('/vote', (req, res) => {
+    res.setHeader('content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     var hold;
     var groupId = req.query.groupid;
     var index = getGroupLocation(groupId);
@@ -109,7 +119,7 @@ app.get('/vote', (req, res) => {
     }
 
     groups.Groups[index].votes[hold]++;
-    res.send("Successful Vote");
+    res.send(JSON.stringify(groups.Groups.votes));
 })
 
 //Calculates which restaurant has the most votes for that group and send back that restaurant's info
@@ -134,9 +144,13 @@ app.get('/finalvote', (req, res) => {
 /*Checks to see if the code you are entering actually corresponds to a created group and gives a 
 success/error message. (/joingroup?id={ID of the group}) */
 app.get('/joingroup', (req, res) => {
+    res.setHeader('content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     var i = 0;
     var isFound = false; //Has the group been found?
-    var toSend; //This is being passed back to the app.
+    var toSend = {
+                    Success: "",
+                }; //This is being passed back to the app.
 
     while(i < groups.Groups.length){
         if(groups.Groups[i].id == req.query.id){
@@ -150,13 +164,13 @@ app.get('/joingroup', (req, res) => {
 
     if(isFound == false){ 
         //error message
-        toSend = {Error: "No group Found"}; //error.stringify
+        toSend = {Success: false}; //error.stringify
     } else {
         console.log('Successfully found the group. Connecting...');
-        toSend = 'Successfully found the group. Connecting...';
+        toSend = {Success: true};
     }
 
-   res.send(toSend);
+   res.send(JSON.stringify(toSend));
 })
 
 //Gives back an array of the restaurants to the phone which holds it until it wants to check that restaurant for something else.
