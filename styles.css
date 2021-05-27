@@ -1,16 +1,26 @@
 h1 {
     color: Purple;
     text-align: center;
-    font-size: 100;
+    font-size: 75px;
   }
-  
+  h2 {
+    text-align: center;
+  }
   p {
     text-align: center;
   }
-  
+  p1 {
+    text-align: center;
+  }
+  .centerimage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
   button {
     border: none;
-    background-color: MediumSeaGreen;
+    background-color: LightBlue;
     padding: 16px 32px;
     text-align: center;
     text-decoration: none;
@@ -19,18 +29,22 @@ h1 {
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
+    margin: auto;
   }
-  
-  .boxed {
-    border: 1px solid green ;
-    border-radius: 20px ;
-    font-size: 24px;
-    text-align: center;
+  button1 {
+    border: none;
+    background-color: Red;
     padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin: auto;
   }
-
   button2{
-    background-color: gray;
     border: none;
     padding: 20px 20px;
     display: inline-block;
@@ -38,7 +52,30 @@ h1 {
     cursor: pointer;
     margin: auto;
   }
-
+  .boxed {
+    border: 5px solid Lavender ;
+    border-radius: 20px ;
+    font-size: 24px;
+    text-align: center;
+    padding: 16px 32px;
+    width: 300px;
+    margin: auto;
+  }
+  .boxed1 {
+    border: 5px solid Lavender ;
+    border-radius: 20px ;
+    font-size: 24px;
+    text-align: center;
+    padding: 16px 32px;
+    width: 300px;
+    margin: auto;
+  }
+  label {
+    margin: auto;
+  }
+  .text {
+    margin: auto;
+  }
   .grid-container {
     display: grid;
     grid-template-columns: 1000px 100px;
@@ -49,5 +86,11 @@ h1 {
     padding: 20px;
     font-size: 30px;
     text-align: center;
+  }
+  .unchecked {
+    background-color:Grey;
+  }
+  .checked {
+    background-color:Green;
   }
   

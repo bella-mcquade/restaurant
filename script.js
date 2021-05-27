@@ -51,7 +51,7 @@ var listRestaurants = function(){
   
     request.onload = function () {
         var data = JSON.parse(this.response);
-        savedGroupID = data;
+        window.savedGroupId = data;
         console.log(savedGroupId);
 
         const groupId = document.createElement('h1');
@@ -65,8 +65,11 @@ var listRestaurants = function(){
   }
 
   var vote = function(id){
+    console.log("Clicked");
     
-    var params = ("?groupid=" + savedGroupId + "&id=" + id);
+    console.log(window.savedGroupId);
+    //FIGURE OUT HOW TO SEE
+    var params = ("?groupid=" + window.savedGroupId + "&id=" + id);
 
     var request = new XMLHttpRequest();
   
@@ -91,7 +94,8 @@ var listRestaurants = function(){
 
     var groupId = document.getElementById('groupcode').value;
     var params = ("?groupid=" + groupId);
-    savedGroupID = groupId;
+    savedGroupId = groupId;
+
     var request = new XMLHttpRequest();
 
   
@@ -150,6 +154,46 @@ var listRestaurants = function(){
             container.appendChild(description);
         }
 
+    }
+  
+    // Send request
+    request.send()
+  }
+
+  var finalvote = function(){
+
+    const container = document.createElement('div');
+
+    container.setAttribute('class', 'container');
+    const app = document.getElementById('root');
+
+    app.appendChild(container);
+    
+    var request = new XMLHttpRequest();
+  
+    request.open('GET', 'http://10.0.0.108:3000/finalvote', true);
+  
+    request.onload = function () {
+        var data = JSON.parse(this.response);
+        console.log(data);
+        console.log(data.Restaurants[0]);
+      
+        for(var i = 0; i < data.Restaurants.length; i++){
+            const name = document.createElement('h1');
+            name.textContent = data.Restaurants[i].Name;
+
+            const price = document.createElement('h3');
+            price.textContent = data.Restaurants[i].Price;
+
+            const description = document.createElement('h3');
+            description.textContent = data.Restaurants[i].Price;
+
+
+            container.appendChild(name);
+            container.appendChild(price);
+            container.appendChild(description);
+
+        }
     }
   
     // Send request
