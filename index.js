@@ -15,6 +15,8 @@ app.set("env", NODE_ENV);
 
 app.use(logger("tiny"));
 app.use(bodyParser.json());
+//setting middleware
+app.use(express.static(__dirname)); //Serves resources from root folder
 
 var fs = require('fs');
 const { randomInt } = require('crypto');
