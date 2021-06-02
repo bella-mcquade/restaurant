@@ -1,6 +1,9 @@
 //Global Variable that saves the group's id. NOT FUNCTIONAL
 var savedGroupId;
 
+//Global variable that saves the URL of the server.
+var baseurl = "http://10.0.0.108:3000";
+
 //Lists every restaurant and their price on the website. NOTE: Just a test function.
 var listRestaurants = function(){
 
@@ -13,7 +16,7 @@ var listRestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://172.30.202.170:3000/listrestaurants', true);
+    request.open('GET', (baseurl + "/listrestaurants"), true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -50,14 +53,14 @@ var listRestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://172.30.202.170:3000/creategroup', true);
+    request.open('GET', (baseurl + '/creategroup'), true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
         window.savedGroupId = data;
         console.log(savedGroupId);
 
-        const groupId = document.createElement('h1');
+        const groupId = document.createElement('h2');
         groupId.textContent = data;
 
         container.appendChild(groupId);
@@ -70,8 +73,8 @@ var listRestaurants = function(){
   //Calls the vote api by using an id submitted by the button and the saved group id. GLOBAL VARIABLE NOT FUNCTIONAL
   var vote = function(id){
 
-    //var elem = document.getElementById("b" + id);
-    //elem.style.backgroundColor="green";
+    var elem = document.getElementById("b" + id);
+    elem.style.backgroundColor="lightgreen";
     
     console.log("Clicked");
     
@@ -81,7 +84,7 @@ var listRestaurants = function(){
 
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://172.30.202.170:3000/vote' + params, true);
+    request.open('GET', (baseurl + '/vote' + params), true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -108,7 +111,7 @@ var listRestaurants = function(){
     var request = new XMLHttpRequest();
 
   
-    request.open('GET', 'http://172.30.202.170:3000/joingroup' + params, true);
+    request.open('GET', (baseurl + '/joingroup' + params), true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -117,7 +120,7 @@ var listRestaurants = function(){
         console.log(savedGroupId);
         console.log(hold);
 
-        const success = document.createElement('h1');
+        const success = document.createElement('h2');
 
         if(hold == true){
             success.textContent = "Success";
@@ -137,7 +140,7 @@ var listRestaurants = function(){
     
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://172.30.202.170:3000/listrestaurants', true);
+    request.open('GET', (baseurl + '/listrestaurants'), true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -151,7 +154,7 @@ var listRestaurants = function(){
 
             option.appendChild(container);
       
-            const name = document.createElement('h1');
+            const name = document.createElement('h2');
             name.textContent = data.Restaurants[i].Name;
 
             const price = document.createElement('h3');
@@ -172,7 +175,7 @@ var listRestaurants = function(){
     request.send()
   }
 
-  //Calls finalVote and shows the winning restaurant. NOT FINISHED OR TESTED!
+  //Calls finalVote and shows the winning restaurant.
   var finalvote = function(){
 
     const container = document.createElement('div');
@@ -185,7 +188,7 @@ var listRestaurants = function(){
     var params = ("?groupid=" + window.savedGroupId);
     var request = new XMLHttpRequest();
   
-    request.open('GET', 'http://172.30.202.170:3000/finalvote' + params, true);
+    request.open('GET', (baseurl + '/finalvote' + params), true);
   
     request.onload = function () {
         var data = JSON.parse(this.response);
@@ -193,7 +196,7 @@ var listRestaurants = function(){
         console.log(data[0].Name);
       
         for(var i = 0; i < data.length; i++){
-            const name = document.createElement('h1');
+            const name = document.createElement('h2');
             name.textContent = data[i].Name;
 
             const price = document.createElement('h3');
