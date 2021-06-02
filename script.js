@@ -2,7 +2,11 @@
 var savedGroupId;
 
 //Global variable that saves the URL of the server.
-var baseurl = "http://10.0.0.108:3000";
+//Development URL
+//var baseurl = "http://10.0.0.108:3000";
+
+//Production URL
+var baseurl = "http://107.20.217.108:3000/";
 
 //Lists every restaurant and their price on the website. NOTE: Just a test function.
 var listRestaurants = function(){

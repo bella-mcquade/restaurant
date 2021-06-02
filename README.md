@@ -17,15 +17,15 @@ $ sudo 'curl -sL https://deb.nodesource.com/setup_15.x | bash -'
 $ sudo apt install -y nodejs
 ```
 #### Check the node version (should be 15+)
-`$ nodejs -v`
+`nodejs -v`
 ​
 #### Initial Setup of the app:
 ​
 #### Clone the github repo:
-`$ git clone git@github.com:dragonfire22/restaurant.git`
+`git clone git@github.com:dragonfire22/restaurant.git`
 ​
 #### Run the app:
-`$ node index.js`
+`node index.js`
 ​
 #### Documentation for API Interaction:
 Base URL: `http://107.20.217.108:3000/`
